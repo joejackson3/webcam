@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camera Stream</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .stream-container {
+            position: relative;
+            width: 100%;
+        }
+        #video-feed {
+            width: 100%;
+            object-fit: cover;
+            display: none; /* Initially hide the image */
+        }
+        #resume-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            display: none; /* Initially hide the button */
+        }
+    </style>
+</head>
+<body>
+    <h1>Live Camera Stream</h1>
+    <div class="stream-container">
+        <img id="video-feed" src="" alt="Video Feed">
+    </div>
+    <button id="resume-button" onclick="resumeStream()">Resume</button>
+
+    <script>
+        const videoFeed = document.getElementById('video-feed');
+        const resumeButton = document.getElementById('resume-button');
+        let streamTimeout;
+
+        // Function to start the stream
+        function startStream() {
+            videoFeed.style.display = "block"; // Show the video feed
+            videoFeed.src = "{{ url_for('video_feed') }}"; // Set the video feed source
+
+            // Hide the "Resume" button while the stream is running
+            resumeButton.style.display = "none";
+
+            // Automatically stop the stream after 30 seconds
+            streamTimeout = setTimeout(stopStream, 30000);
+        }
+
+        // Function to stop the stream
+        function stopStream() {
+            videoFeed.style.display = "none"; // Hide the video feed
+            videoFeed.src = ""; // Clear the video feed source
+
+            // Show the "Resume" button
+            resumeButton.style.display = "block";
+        }
+
+        // Function to resume the stream when the button is clicked
+        function resumeStream() {
+            clearTimeout(streamTimeout); // Clear any existing timeout
+            startStream(); // Restart the stream
+        }
+
+        // Start the stream initially
+        startStream();
+    </script>
+</body>
+</html>
