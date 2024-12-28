@@ -29,7 +29,7 @@ def initialize_camera():
             )
             # Set manual exposure time and disable auto exposure
             camera.set_controls({
-                "ExposureTime": 400000,  # 20 ms exposure
+                "ExposureTime": 20000,  # 20 ms exposure
                 "AeEnable": True      # Disable auto exposure
             })
 
@@ -93,8 +93,4 @@ def generate_frames():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8082, debug=False)
-#if __name__ == '__main__':
-#    app.run(host='0.0.0.0', port=8082, debug=True,
-#            ssl_context=('/etc/letsencrypt/live/haspohr.org/fullchain.pem',
-#                         '/etc/letsencrypt/live/haspohr.org/privkey.pem'))
 
